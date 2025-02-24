@@ -1,0 +1,10 @@
+﻿Código Pedido;Produto;Quant.;Valor Uni;Valor Total;Cliente;Entregue por;Data Pedido;Data Pagamento;Data Liberação;Data Envio;Data Receb.
+1;Coca Cola;3;10;30;Victor;Gela Goela;29/06/2024 06:00;30/06/2024;30/06/2024 07:00;01/07/2024;
+1;Cerveja;5;34;153;Victor;Gela Goela;29/06/2024 10:00;30/06/2024;30/06/2024 09:00;30/06/2024;01/07/2024 10:00
+1;Biscoito;4;5;20;Victor;Americanas;29/06/2024 15:00;30/06/2024;30/06/2024 10:00;;
+2;Livro;1;45;45;Henrique;Amazon;30/06/2024 09:00;30/06/2024;;;
+2;Biscoito;2;5;10;Henrique;Americanas;30/06/2024 11:00;30/06/2024;;;
+2;Livro;1;60;60;Henrique;Amazon;30/06/2024 18:00;30/06/2024;;;
+3;Cerveja;2;34;68;José;Gela Goela;28/06/2024 11:00;28/06/2024;01/07/2024 09:00;01/07/2024;01/07/2024 15:00
+4;Vinho;2;44;66;Maria;Bretas;28/06/2024 14:00;29/06/2024;30/06/2024 08:00;30/06/2024;01/07/2024 20:00
+5;Cerveja;3;34;102;Victor;Gela Goela;28/06/2024 17:00;29/06/2024;30/06/2024 08:00;;
