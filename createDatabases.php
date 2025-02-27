@@ -45,9 +45,9 @@ $sql = "CREATE TABLE IF NOT EXISTS order_dates (
 
 $pdo->exec($sql);
 
-$sql = "CREATE TABLE IF NOT EXISTS order_day (
+$sql = "CREATE TABLE IF NOT EXISTS order_days (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    order_day DATETIME UNIQUE
+    order_days DATETIME UNIQUE
 );";
 
 $pdo->exec($sql);

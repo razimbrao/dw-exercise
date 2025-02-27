@@ -27,7 +27,7 @@ function createOrderDateDimension(array $rows): void
 function createOrderDayDimension(array $rows): void
 {
     $pdo = Connect::getInstance();
-    $pdo->exec("DELETE FROM order_day");
+    $pdo->exec("DELETE FROM order_days");
 
     $orderDates = [];
     foreach ($rows as $row) {
@@ -43,13 +43,13 @@ function createOrderDayDimension(array $rows): void
         }
     }
 
-    $sql = "INSERT INTO order_day (order_day) VALUES (:order_day)";
+    $sql = "INSERT INTO order_days (order_days) VALUES (:order_days)";
 
     $stmt = $pdo->prepare($sql);
 
     foreach ($orderDates as $orderDate) {
         $stmt->execute([
-            ":order_day" => $orderDate
+            ":order_days" => $orderDate
         ]);
     }
 }

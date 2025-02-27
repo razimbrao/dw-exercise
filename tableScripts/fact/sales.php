@@ -108,8 +108,8 @@ function getOrderDateId(string $orderDate): int
 function getOrderDayId(string $orderDay): int
 {
     $pdo = Connect::getInstance();
-    $stmt = $pdo->prepare("SELECT id FROM order_day WHERE order_day = :order_day");
-    $stmt->execute([":order_day" => $orderDay]);
+    $stmt = $pdo->prepare("SELECT id FROM order_days WHERE order_days = :order_days");
+    $stmt->execute([":order_days" => $orderDay]);
     $id = $stmt->fetchColumn();
     return $id;
 }
