@@ -14,4 +14,4 @@ $csv = new Csv(__DIR__ . "/TabelaAtividade.csv");
 createStagingArea($csv);
 createDimensions();
 createFactSales();
-
+createDailySalesFact();

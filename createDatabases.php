@@ -45,7 +45,27 @@ $sql = "CREATE TABLE IF NOT EXISTS order_dates (
 
 $pdo->exec($sql);
 
+$sql = "CREATE TABLE IF NOT EXISTS order_day (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_day DATETIME UNIQUE
+);";
+
+$pdo->exec($sql);
+
 $sql = "CREATE TABLE IF NOT EXISTS sales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER,
+    client_id INTEGER,
+    order_date_id INTEGER,
+    total_amount INTEGER,
+    FOREIGN KEY(product_id) REFERENCES products(id),
+    FOREIGN KEY(client_id) REFERENCES clients(id),
+    FOREIGN KEY(order_date_id) REFERENCES order_dates(id)
+);";
+
+$pdo->exec($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS daily_sales (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     product_id INTEGER,
     client_id INTEGER,

@@ -18,4 +18,5 @@ function createDimensions(): void
     createProductDimension($rows);
     createClientDimension($rows);
     createOrderDateDimension($rows);
+    createOrderDayDimension($rows);
 }

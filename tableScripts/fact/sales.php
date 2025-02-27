@@ -20,6 +20,64 @@ function createFactSales(): void
     }
 }
 
+function createDailySalesFact(): void
+{
+    $pdo = Connect::getInstance();
+    $pdo->exec("DELETE FROM daily_sales");
+
+    $stmt = $pdo->query("SELECT * from staging_area");
+    $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    foreach ($rows as $row) {
+        $product_id = getProductId($row["produto"]);
+        $client_id = getClientId($row["cliente"]);
+        $dateTime = DateTime::createFromFormat("d/m/Y H:i", $row["data_pedido"]);
+        $orderDate = $dateTime->format("d/m/Y");
+        $order_date_id = getOrderDayId($orderDate);
+
+        $checkStmt = $pdo->prepare("
+            SELECT total_amount FROM daily_sales 
+            WHERE product_id = :product_id 
+            AND client_id = :client_id 
+            AND order_date_id = :order_date_id
+        ");
+        $checkStmt->execute([
+            ":product_id"   => $product_id,
+            ":client_id"    => $client_id,
+            ":order_date_id" => $order_date_id
+        ]);
+        $existingSale = $checkStmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($existingSale) {
+            $totalAmount = $existingSale["total_amount"] + $row["valor_total"];
+            $updateStmt = $pdo->prepare("
+                UPDATE daily_sales 
+                SET total_amount = :total_amount
+                WHERE product_id = :product_id 
+                AND client_id = :client_id 
+                AND order_date_id = :order_date_id
+            ");
+            $updateStmt->execute([
+                ":product_id"    => $product_id,
+                ":client_id"     => $client_id,
+                ":order_date_id" => $order_date_id,
+                ":total_amount"  => $totalAmount
+            ]);
+        } else {
+            $insertStmt = $pdo->prepare("
+                INSERT INTO daily_sales (product_id, client_id, order_date_id, total_amount) 
+                VALUES (:product_id, :client_id, :order_date_id, :total_amount)
+            ");
+            $insertStmt->execute([
+                ":product_id"   => $product_id,
+                ":client_id"    => $client_id,
+                ":order_date_id" => $order_date_id,
+                ":total_amount"  => $row["valor_total"]
+            ]);
+        }
+    }
+}
+
 function getProductId(string $productName): int
 {
     $pdo = Connect::getInstance();
@@ -43,6 +101,15 @@ function getOrderDateId(string $orderDate): int
     $pdo = Connect::getInstance();
     $stmt = $pdo->prepare("SELECT id FROM order_dates WHERE order_date = :order_date");
     $stmt->execute([":order_date" => $orderDate]);
+    $id = $stmt->fetchColumn();
+    return $id;
+}
+
+function getOrderDayId(string $orderDay): int
+{
+    $pdo = Connect::getInstance();
+    $stmt = $pdo->prepare("SELECT id FROM order_day WHERE order_day = :order_day");
+    $stmt->execute([":order_day" => $orderDay]);
     $id = $stmt->fetchColumn();
     return $id;
 }

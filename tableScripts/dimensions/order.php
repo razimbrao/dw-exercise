@@ -2,6 +2,7 @@
 
 use Php\Dw\Connect;
 
+
 function createOrderDateDimension(array $rows): void
 {
     $orderDates = [];
@@ -19,5 +20,36 @@ function createOrderDateDimension(array $rows): void
 
     foreach($orderDates as $orderDate => $value) {
         $pdo->prepare($sql)->execute([":order_date" => $orderDate]);
+    }
+}
+
+
+function createOrderDayDimension(array $rows): void
+{
+    $pdo = Connect::getInstance();
+    $pdo->exec("DELETE FROM order_day");
+
+    $orderDates = [];
+    foreach ($rows as $row) {
+        $dateTimeStr = $row["data_pedido"];
+        $dateTime = DateTime::createFromFormat("d/m/Y H:i", $dateTimeStr);
+        if (!$dateTime) {
+            continue; 
+        }
+
+        $orderDate = $dateTime->format("d/m/Y");
+        if (!in_array($orderDate, $orderDates, true)) {
+            $orderDates[] = $orderDate;
+        }
+    }
+
+    $sql = "INSERT INTO order_day (order_day) VALUES (:order_day)";
+
+    $stmt = $pdo->prepare($sql);
+
+    foreach ($orderDates as $orderDate) {
+        $stmt->execute([
+            ":order_day" => $orderDate
+        ]);
     }
 }
