@@ -19,5 +19,7 @@ function createDimensions(): void
     createClientDimension($rows);
     createOrderDateDimension($rows);
     createOrderDayDimension($rows);
-    createAggSalesFact($rows);
+    createFactSales();
+    createDailySalesFact();
+    createAggSalesFact();
 }
