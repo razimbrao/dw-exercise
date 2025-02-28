@@ -6,6 +6,15 @@ require_once __DIR__ . "/vendor/autoload.php";
 
 $pdo = Connect::getInstance();
 
+$pdo->exec("DROP TABLE IF EXISTS staging_area");
+$pdo->exec("DROP TABLE IF EXISTS products");
+$pdo->exec("DROP TABLE IF EXISTS clients");
+$pdo->exec("DROP TABLE IF EXISTS order_dates");
+$pdo->exec("DROP TABLE IF EXISTS order_days");
+$pdo->exec("DROP TABLE IF EXISTS sales");
+$pdo->exec("DROP TABLE IF EXISTS daily_sales");
+$pdo->exec("DROP TABLE IF EXISTS agr_sales");
+
 $sql = "CREATE TABLE IF NOT EXISTS staging_area (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     codigo_pedido VARCHAR(50),
@@ -74,6 +83,21 @@ $sql = "CREATE TABLE IF NOT EXISTS daily_sales (
     FOREIGN KEY(product_id) REFERENCES products(id),
     FOREIGN KEY(client_id) REFERENCES clients(id),
     FOREIGN KEY(order_date_id) REFERENCES order_dates(id)
+);";
+
+$pdo->exec($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS agr_sales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER,
+    client_id INTEGER,
+    order_date_id INTEGER,
+    release_date_id INTEGER,
+    total_amount INTEGER,
+    FOREIGN KEY(product_id) REFERENCES products(id),
+    FOREIGN KEY(client_id) REFERENCES clients(id),
+    FOREIGN KEY(order_date_id) REFERENCES order_dates(id)
+    FOREIGN KEY(release_date_id) REFERENCES order_dates(id)
 );";
 
 $pdo->exec($sql);
