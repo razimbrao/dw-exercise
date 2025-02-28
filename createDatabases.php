@@ -82,7 +82,7 @@ $sql = "CREATE TABLE IF NOT EXISTS daily_sales (
     total_amount INTEGER,
     FOREIGN KEY(product_id) REFERENCES products(id),
     FOREIGN KEY(client_id) REFERENCES clients(id),
-    FOREIGN KEY(order_date_id) REFERENCES order_dates(id)
+    FOREIGN KEY(order_date_id) REFERENCES order_days(id)
 );";
 
 $pdo->exec($sql);
@@ -96,8 +96,8 @@ $sql = "CREATE TABLE IF NOT EXISTS agr_sales (
     total_amount INTEGER,
     FOREIGN KEY(product_id) REFERENCES products(id),
     FOREIGN KEY(client_id) REFERENCES clients(id),
-    FOREIGN KEY(order_date_id) REFERENCES order_dates(id)
-    FOREIGN KEY(release_date_id) REFERENCES order_dates(id)
+    FOREIGN KEY(order_date_id) REFERENCES order_days(id)
+    FOREIGN KEY(release_date_id) REFERENCES order_days(id)
 );";
 
 $pdo->exec($sql);
